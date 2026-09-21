@@ -3,6 +3,7 @@
 #include <conio.h>
 #include <memory.h>
 #include <stdlib.h>
+#include <i86.h>
 #include "grph21.h"
 #include "PRCGS.H"
 

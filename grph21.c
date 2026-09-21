@@ -106,7 +106,7 @@ void SetBank(int bank)
 
 uint16_t SetBankAndGetStartOffset(int y)
 {
-	uint32_t yadr=y*640;
+	uint32_t yadr=(uint32_t)(y)*640;
 	uint32_t ybank=yadr>>15;
 	SetBank(ybank);
 	return (yadr&0x7fff);
