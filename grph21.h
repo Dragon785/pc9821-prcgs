@@ -18,7 +18,11 @@ extern void TextOn(void);
 extern void SetPalette(uint8_t p,uint8_t r,uint8_t g,uint8_t b);
 // バンク設定(b0000からが次のバンクになる)
 extern void SetBank(int bank);
+
+// 指定位置に点を打つ
 extern void Pset(int x,int y,unsigned char v);
+
+extern uint16_t SetBankAndGetStartOffset(int y);
 
 extern void ClearVRAM(void);
 

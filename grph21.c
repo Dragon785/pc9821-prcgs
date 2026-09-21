@@ -104,12 +104,17 @@ void SetBank(int bank)
 #endif
 }
 
-void Pset(int x,int y,unsigned char v)
+uint16_t SetBankAndGetStartOffset(int y)
 {
 	uint32_t yadr=y*640;
 	uint32_t ybank=yadr>>15;
-	uint32_t ofsy=yadr&0x7fff;
 	SetBank(ybank);
+	return (yadr&0x7fff);
+}
+
+void Pset(int x,int y,unsigned char v)
+{
+	uint16_t ofsy=SetBankAndGetStartOffset(y);
 #if defined(__386__)&&defined(__DOS__)
 	*(uint8_t*)(0xa8000+x+ofsy)=v;
 #else

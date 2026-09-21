@@ -32,7 +32,28 @@ static void MakePallete(void)
             }
         }
     }
-    SetPalette(0xff,0x10,0x10,0x90); // for debug
+}
+
+static unsigned char palBuf[2][640];
+
+static void WriteToVRAM(int baseY)
+{
+	uint16_t ofs;
+	// first line
+	ofs=SetBankAndGetStartOffset(baseY);
+#if defined(__386__)&&defined(__DOS__)
+	uint8_t* pWrite=(uint8_t*)(0xa8000+ofs);
+#else
+	uint8_t __far* pWrite=MK_FP(0xa800,ofs);
+#endif
+
+	for (int y=0;y<2;++y)
+	{
+		for (int x=0;x<640;++x)
+		{
+			*pWrite++=palBuf[y][x];
+		}
+	}
 }
 
 int main(int argc,char* argv[])
@@ -125,11 +146,12 @@ int main(int argc,char* argv[])
                 }
                 pal[d]=rd*36+gd*6+bd;
             }
-            Pset(x*2+0,y*2+0,pal[0]);
-            Pset(x*2+1,y*2+0,pal[1]);
-            Pset(x*2+1,y*2+1,pal[2]);
-            Pset(x*2+0,y*2+1,pal[3]);
+            palBuf[0][x*2+0]=pal[0];
+            palBuf[0][x*2+1]=pal[1];
+            palBuf[1][x*2+1]=pal[2];
+            palBuf[1][x*2+0]=pal[3];
         }
+		WriteToVRAM(y*2);
     }
 
     free(r);r=NULL;

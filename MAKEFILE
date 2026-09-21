@@ -1,7 +1,7 @@
 .ERASE
 
 CC = wcl386
-CFLAGS = -zk0 -za99
+CFLAGS = -zk0 -za99 -Ox
 
 look21.exe: main.c prcgs.c grph21.c
 	$(CC) -fe=$@ $(CFLAGS) main.c prcgs.c grph21.c
